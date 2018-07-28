@@ -3,10 +3,11 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Os = require('../models/os');
 const Maincategory = require('../models/maincategory');
+const Subcategory =require('../models/subcategory');
 router.get("/", (req, res, next) => {
-  Maincategory.find()
-    .populate('os')
-    .exec()
+  Subcategory.find()
+    .populate('maincategory os')
+     .exec()
     .then(docs => {
       console.log(docs);
       res.status(200).json(docs);
@@ -19,25 +20,24 @@ router.get("/", (req, res, next) => {
     });
 });
 router.post("/", (req, res, next) => {
-  Os.findById(req.body.osId)
-    .then(os => {
-      if (!os) {
+  Maincategory.findById(req.body.maincategoryId)
+    .then(maincategory => {
+      if (!maincategory) {
         return res.status(404).json({
-          message: "Os indha kadale illayama"
+          message: "maincategory indha kadale illayama"
         });
       }
-      const maincategory = new Maincategory({
-        _id: new mongoose.Types.ObjectId(),
+      const subcategory = new Subcategory({
         title: req.body.title,
-        os: req.body.osId
+        maincategory: req.body.maincategoryId
       });
-      return maincategory.save();
+      return subcategory.save();
     })
     .then(result => {
       console.log(result);
       res.status(201).json({
         message: "Handling POST requests to /products",
-        createdCategory: result
+        createdSubCategory: result
       });
     })
     .catch(err => {

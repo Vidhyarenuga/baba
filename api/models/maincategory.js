@@ -5,14 +5,15 @@ var Schema=mongoose.Schema;
 var maincategorySchema=new Schema({
     title:{
         type:String,
-        unique:true
+        unique:null
         
     },
-    os: [{
+    os: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'os'
+                ref: 'os',
+                required:true
             }
-        ],
+        
         
 });
 module.exports = mongoose.model('maincategory',maincategorySchema);
