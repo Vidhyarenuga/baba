@@ -4,10 +4,12 @@ const mongoose = require('mongoose');
 const Os = require('../models/os');
 const Maincategory = require('../models/maincategory');
 const Subcategory =require('../models/subcategory');
+const Item=require('../models/item');
 router.get("/", (req, res, next) => {
-  Subcategory.find()
+  Item.find()
+    .populate('subcategory')
     .populate('maincategory')
-    .exec()
+     .exec()
     .then(docs => {
       console.log(docs);
       res.status(200).json(docs);
@@ -20,26 +22,29 @@ router.get("/", (req, res, next) => {
     });
 });
 router.post("/", (req, res, next) => {
-  Maincategory.findById(req.body.maincategoryId)
-    .then(maincategory => {
-      if (!maincategory) {
+  Subcategory.findById(req.body.subcategoryId)
+    .then(subcategory => {
+      if (!subcategory) {
         return res.status(404).json({
-          message: "maincategory indha kadale illayama"
+          message: "item indha kadale illayama"
         });
       }
-      const subcategory = new Subcategory({
+      const item = new Item({
         _id: new mongoose.Types.ObjectId(),
+        subcategory: req.body.subcategoryId,
         title: req.body.title,
-        maincategory: req.body.maincategoryId
-        
+        description:req.body.description,
+        version:req.body.version,
+        createdBy:req.body.createdBy,
+        details:req.body.details
       });
-      return subcategory.save();
+      return item.save();
     })
     .then(result => {
       console.log(result);
       res.status(201).json({
-        message: "Handling POST requests to /products",
-        createdSubCategory: result
+        message: "varu ahna varadhu",
+        createdItem: result
       });
     })
     .catch(err => {

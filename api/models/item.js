@@ -2,9 +2,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var itemSchema = new Schema({
+    _id:mongoose.Schema.Types.ObjectId,
     subcategory: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'subcat'
+        ref: 'subcategory'
     },
      title: {
         type: String,
@@ -16,12 +17,12 @@ var itemSchema = new Schema({
     },
    
     version: {
-        type: Number,
+        type: String,
         required: true
     },
     imagePath: {
         type: String,
-        required: true
+        //required: true
     },
     rating: {
         type: Number,
@@ -36,7 +37,7 @@ var itemSchema = new Schema({
     },
     imgslides: {
         type: String,
-        required: true,
+        //required: true,
         min:2,
         max:4
     },
@@ -45,7 +46,7 @@ var itemSchema = new Schema({
     },
     files:{
         type:String,
-        required:true
+        //required:true
     },
     details:{
         type:String,

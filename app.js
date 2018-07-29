@@ -5,6 +5,7 @@ var mongoose=require('mongoose');
 const osRoutes=require('./api/routes/oss');
 const mainRoutes=require('./api/routes/maincategories');
 const subRoutes=require('./api/routes/subcategories');
+const itemRoutes=require('./api/routes/items');
 const morgan=require('morgan');
 const url = 'mongodb://localhost:27017/example';
 const connect = mongoose.connect(url,{
@@ -35,6 +36,7 @@ app.use((req, res, next) => {
 app.use("/os",osRoutes)
 app.use("/maincategories",mainRoutes)
 app.use("/subcategories",subRoutes)
+app.use("/item",itemRoutes)
 var port=3000;
 app.listen(port,function(){
     console.log('app listening on port:' +port);
